@@ -4,12 +4,15 @@ import sys
 import persistence
 import os
 
+def orderAndUpdate(repo, location, topping):
+    repo.
+
 
 def main():
     # read terminal arguments
     config = open(sys.argv[1], "r")
-    orders = sys.argv[2]
-    output = sys.argv[3]
+    orders = open(sys.argv[2], "r")
+    output = open(sys.argv[3], "w")
     database = sys.argv[4]
 
     # figure out num of hats and num of suppliers
@@ -45,12 +48,23 @@ def main():
         next_supplier = persistence.Supplier(int(supplier_variables[0]), supplier_variables[1],)
         repo.suppliers.insert(next_supplier)
 
+    for order in orders:
+        # read next order
+        order = order.strip()
+        order_split = order.split(',')
+        location = order_split[0]
+        topping = order_split[1]
 
+        # order and update
+        supplier = orderAndUpdate(repo, location, topping)
 
+        # insert to output file
+        if supplier != "":
+            output.write(topping + "," + supplier + "," + location + "\n")
 
-
-
-
+    output.close()
+    orders.close()
+    config.close()
 
 
 if __name__ == '__main__':
