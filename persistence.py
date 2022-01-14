@@ -45,6 +45,27 @@ class _Hats:
 
         return Hat(*c.fetchone())
 
+    def findSupplier(self, topping):
+        c = self._conn.cursor()
+        c.execute("""
+            SELECT id, topping, supplier_id, quantity FROM hats WHERE topping = ? ORDER BY supplier_id
+        """, [topping])
+
+        return Hat(*c.fetchone())
+
+    def update(self, column, newVal, toUpdatePK):
+        c = self._conn.cursor()
+        c.execute("""
+            UPDATE hats SET column = newVal WHERE id = toUpdatePK
+        """)
+
+
+    def deleteRecord(self, toDeleteRecordPK):
+        c = self._conn.cursor()
+        c.execute("""
+            DELETE FROM hats WHERE id = ?
+            """, [toDeleteRecordPK])
+
     def find_all(self, topping):
         c = self._conn.cursor()
         all = c.execute("""

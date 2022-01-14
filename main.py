@@ -6,20 +6,25 @@ import os
 
 
 def order_and_update(repo, location, topping):
-    #checking number of suppliers suppling that topping
-    #hatDtoList = repo.hats.find_all(topping)
-    #print(str(hatDtoList[0].id) + hatDtoList[0].topping, str(hatDtoList[0].supplier_id), str(hatDtoList[0].quantity))
-    #for hatDTO in hatDtoList:
-        #add the supplier_id into a list
-    #count the repetition of same supplier id
+    hat = repo.hats.findSupplier(topping)
+    print(hat.supplier_id + ", quantitiy: " + hat.quantity)
 
-    # SELECT COUNT( supplier_id)
-    # FROM hats
-    # WHERE topping = "olives"
-    # GROUP BY topping
-#    a = repo.hats.findSuppliersCount(topping)
-   # print(a)
-    return "Aaa"
+    #the chosen supplier:
+    orderSupplier = hat.supplier_id
+
+    #updating quantity of hats for that supplier
+    repo.hats.update("quantity", hat.quantity-1, hat.id)
+    print(hat.supplier_id + ", quantitiy: " + hat.quantity)
+
+    # if hat.quantity = 0 remove record from hats:
+    # removing:
+    repo.hats.deleteRecord(hat.id)
+
+    #insert the new order record to orders table:
+    #nextId = get a unique id
+    nextId = 1
+    repo.orders.insert(persistence.Order(nextId, ))
+    return orderSupplier
 
 def main():
     # read terminal arguments
