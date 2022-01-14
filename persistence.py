@@ -92,8 +92,8 @@ class _Orders:
 
 # The Repository
 class _Repository(object):
-    def __init__(self):
-        self._conn = sqlite3.connect('grades.db')
+    def __init__(self, database):
+        self._conn = sqlite3.connect(database)
         self.hats = _Hats(self._conn)
         self.suppliers = _Suppliers(self._conn)
         self.orders = _Orders(self._conn)
@@ -128,6 +128,3 @@ class _Repository(object):
         """)
 
 
-# the repository singleton
-repo = _Repository()
-atexit.register(repo._close)
