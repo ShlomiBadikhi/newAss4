@@ -6,8 +6,20 @@ import os
 
 
 def order_and_update(repo, location, topping):
-    return 0
+    #checking number of suppliers suppling that topping
+    #hatDtoList = repo.hats.find_all(topping)
+    #print(str(hatDtoList[0].id) + hatDtoList[0].topping, str(hatDtoList[0].supplier_id), str(hatDtoList[0].quantity))
+    #for hatDTO in hatDtoList:
+        #add the supplier_id into a list
+    #count the repetition of same supplier id
 
+    # SELECT COUNT( supplier_id)
+    # FROM hats
+    # WHERE topping = "olives"
+    # GROUP BY topping
+#    a = repo.hats.findSuppliersCount(topping)
+   # print(a)
+    return "Aaa"
 
 def main():
     # read terminal arguments
@@ -70,3 +82,5 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+

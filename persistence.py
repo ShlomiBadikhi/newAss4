@@ -48,10 +48,20 @@ class _Hats:
     def find_all(self, topping):
         c = self._conn.cursor()
         all = c.execute("""
-            SELECT id, supplier_id, quantity FROM orders WHERE topping = ?
+            SELECT id, topping, supplier_id, quantity FROM hats WHERE topping = ?
         """, [topping]).fetchall()
 
-        return [Order(*row) for row in all]
+        return [Hat(*row) for row in all]
+
+    #def findSuppliersCount(self, topping):
+     #   c = self._conn.cursor()
+      #  c.execute("""
+       #     SELECT COUNT( supplier_id) FROM hats WHERE topping = ?
+        #    GROUP BY topping
+        #""", [topping])
+        #print("fetchone" + topping)
+        #print( c.fetchone)
+        #return c.fetchone
 
 
 class _Suppliers:
@@ -60,13 +70,13 @@ class _Suppliers:
 
     def insert(self, supplier):
         self._conn.execute("""
-                INSERT INTO suppliers (id, name) VALUES (?, ?)
+                INSERT INTO suppliers (supplier_id, name) VALUES (?, ?)
         """, [supplier.id, supplier.name])
 
     def find(self, id):
         c = self._conn.cursor()
         c.execute("""
-                SELECT id,name FROM suppliers WHERE id = ?
+                SELECT supplier_id,name FROM suppliers WHERE supplier_id = ?
             """, [id])
 
         return Supplier(*c.fetchone())
@@ -121,7 +131,7 @@ class _Repository(object):
             );
 
             CREATE TABLE suppliers (
-                id                 INT     PRIMARY KEY,
+                supplier_id                 INT     PRIMARY KEY,
                 name     TEXT    NOT NULL
             );
 
