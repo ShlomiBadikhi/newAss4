@@ -107,23 +107,20 @@ class _Repository(object):
         self._conn.executescript("""
             CREATE TABLE hats (
                 id      INT         PRIMARY KEY,
-                name    TEXT        NOT NULL
+                topping    TEXT        NOT NULL,
+                supplier_id     INT     REFERENCES suppliers(id),
+                quantity    INT     NOT NULL 
             );
 
             CREATE TABLE suppliers (
-                num                 INT     PRIMARY KEY,
-                expected_output     TEXT    NOT NULL
+                id                 INT     PRIMARY KEY,
+                name     TEXT    NOT NULL
             );
 
             CREATE TABLE orders (
-                student_id      INT     NOT NULL,
-                assignment_num  INT     NOT NULL,
-                grade           INT     NOT NULL,
-
-                FOREIGN KEY(student_id)     REFERENCES students(id),
-                FOREIGN KEY(assignment_num) REFERENCES assignments(num),
-
-                PRIMARY KEY (student_id, assignment_num)
+                id     INT     PRIMARY KEY,
+                location    TEXT     NOT NULL,
+                hat_id      INT     REFERENCES hats(id)
             );
         """)
 
