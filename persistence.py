@@ -53,11 +53,11 @@ class _Hats:
 
         return Hat(*c.fetchone())
 
-    def update(self, column, newVal, toUpdatePK):
+    def updateQuantity(self, column, newVal, toUpdatePK):
         c = self._conn.cursor()
         c.execute("""
-            UPDATE hats SET column = newVal WHERE id = toUpdatePK
-        """)
+            UPDATE hats SET quantity = ? WHERE id = ?
+        """, [newVal, toUpdatePK])
 
 
     def deleteRecord(self, toDeleteRecordPK):

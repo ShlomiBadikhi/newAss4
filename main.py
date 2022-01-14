@@ -5,26 +5,23 @@ import persistence
 import os
 
 
-def order_and_update(repo, location, topping):
+def order_and_update(repo, location, topping, orderId):
     hat = repo.hats.findSupplier(topping)
-    print(hat.supplier_id + ", quantitiy: " + hat.quantity)
 
     #the chosen supplier:
-    orderSupplier = hat.supplier_id
+    orderSupplier_id = hat.supplier_id
+
+    supDTO = repo.suppliers.find(orderSupplier_id)
 
     #updating quantity of hats for that supplier
-    repo.hats.update("quantity", hat.quantity-1, hat.id)
-    print(hat.supplier_id + ", quantitiy: " + hat.quantity)
+    repo.hats.updateQuantity("quantity", hat.quantity-1, hat.id)
 
-    # if hat.quantity = 0 remove record from hats:
-    # removing:
-    repo.hats.deleteRecord(hat.id)
+    if hat.quantity == 0:
+        repo.hats.deleteRecord(hat.id)
 
     #insert the new order record to orders table:
-    #nextId = get a unique id
-    nextId = 1
-    repo.orders.insert(persistence.Order(nextId, ))
-    return orderSupplier
+    repo.orders.insert(persistence.Order(orderId, location, hat.id))
+    return supDTO.name
 
 def main():
     # read terminal arguments
@@ -66,6 +63,8 @@ def main():
         next_supplier = persistence.Supplier(int(supplier_variables[0]), supplier_variables[1],)
         repo.suppliers.insert(next_supplier)
 
+        OrderUniqueId = 1
+
     for order in orders:
         # read next order
         order = order.strip()
@@ -74,11 +73,11 @@ def main():
         topping = order_split[1]
 
         # order and update
-        supplier = order_and_update(repo, location, topping)
+        supplie_name = order_and_update(repo, location, topping, OrderUniqueId)
 
         # insert to output file
-        if supplier != "":
-            output.write(topping + "," + supplier + "," + location + "\n")
+        OrderUniqueId = OrderUniqueId+1
+        output.write(topping + "," + str(supplie_name) + "," + location + "\n")
 
     output.close()
     orders.close()
