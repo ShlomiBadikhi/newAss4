@@ -45,6 +45,14 @@ class _Hats:
 
         return Hat(*c.fetchone())
 
+    def find_all(self, topping):
+        c = self._conn.cursor()
+        all = c.execute("""
+            SELECT id, supplier_id, quantity FROM orders WHERE topping = ?
+        """, [topping]).fetchall()
+
+        return [Order(*row) for row in all]
+
 
 class _Suppliers:
     def __init__(self, conn):

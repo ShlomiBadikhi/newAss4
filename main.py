@@ -4,8 +4,9 @@ import sys
 import persistence
 import os
 
-def orderAndUpdate(repo, location, topping):
-    repo.
+
+def order_and_update(repo, location, topping):
+    return 0
 
 
 def main():
@@ -56,7 +57,7 @@ def main():
         topping = order_split[1]
 
         # order and update
-        supplier = orderAndUpdate(repo, location, topping)
+        supplier = order_and_update(repo, location, topping)
 
         # insert to output file
         if supplier != "":
